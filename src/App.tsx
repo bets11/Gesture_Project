@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import * as tf from '@tensorflow/tfjs'; // Import TensorFlow.js
+import * as tf from '@tensorflow/tfjs'; 
 import './App.css';
 
 const App: React.FC = () => {
@@ -39,11 +39,11 @@ const App: React.FC = () => {
         const detect = async () => {
           if (video.readyState === video.HAVE_ENOUGH_DATA) {
             ctx!.drawImage(video, 0, 0, canvasRef.current!.width, canvasRef.current!.height);
-            ctx!.save(); // Speichere den aktuellen Zustand des Kontextes
-            ctx!.scale(-1, 1); // Spiegel das Bild horizontal
-            ctx!.translate(-canvasRef.current!.width, 0); // Bewege den Ursprung des Canvas nach rechts
+            ctx!.save(); // saving the current 
+            ctx!.scale(-1, 1); //Maßnahme für Spiegelverkehrt
+            ctx!.translate(-canvasRef.current!.width, 0);
             ctx!.drawImage(video, 0, 0, canvasRef.current!.width, canvasRef.current!.height);
-            ctx!.restore(); // Setze den Kontext zurück
+            ctx!.restore(); // context back to null
 
             const predictions = await net.estimateHands(video);
 
