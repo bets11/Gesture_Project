@@ -7,7 +7,6 @@ import './App.css';
 const App: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isGrayscale, setIsGrayscale] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1); 
   const [rotation, setRotation] = useState(0); 
 
@@ -147,7 +146,6 @@ const App: React.FC = () => {
           className="canvasbox"
           width={640}
           height={480}
-          style={{ filter: isGrayscale ? 'grayscale(100%)' : 'none' }}
         />
         <div className="overlay">
           <div className="circle">
