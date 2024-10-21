@@ -13,19 +13,37 @@ const App: React.FC = () => {
 
   let buttonHoverTimeout: NodeJS.Timeout | null = null;
 
+  //ZONES
+  const buttonZones = {
+    plus: { left: 150, top: 100, right: 250, bottom: 200 }, 
+    minus: { left: 150, top: 300, right: 250, bottom: 400 },
+    //left: { left: 0, top: 0, right: 0, bottom: 0 },
+    //right: { left: 0, top: 0, right: 0, bottom: 0 },
+    //prevCar: { left: 0, top: 0, right: 0, bottom: 0 },
+    //nextCar: { left: 0, top: 0, right: 0, bottom: 0 }
+  };
+
+
   useEffect(() => {
     const loadCamera = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
-          await videoRef.current.play();
+          videoRef.current.onloadedmetadata = () => {
+            try {
+              videoRef.current?.play();
+            } catch (error) {
+              console.error("Error during play: ", error);
+            }
+          };
         }
       } catch (err) {
         console.error("Error accessing the camera: ", err);
         alert("Unable to access the camera. Please check camera permissions.");
       }
     };
+    
 
     loadCamera();
 
@@ -62,6 +80,7 @@ const App: React.FC = () => {
     detectHand();
   }, []);
 
+  //drawing red circle
   const drawHandPoint = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
     ctx.beginPath();
     ctx.arc(x, y, 10, 0, 2 * Math.PI); 
@@ -71,11 +90,13 @@ const App: React.FC = () => {
   };
 
   const checkHandOnButton = (x: number, y: number) => {
-    const buttons = document.querySelectorAll('.circle-button');
-    buttons.forEach(button => {
-      const rect = button.getBoundingClientRect();
-      if (x > rect.left && x < rect.right && y > rect.top && y < rect.bottom) {
-        handleButtonHover(button.id); 
+    Object.keys(buttonZones).forEach(buttonId => {
+      const zone = buttonZones[buttonId as keyof typeof buttonZones];
+      
+      //hand in defined buttonZones
+      if (x > zone.left && x < zone.right && y > zone.top && y < zone.bottom) {
+        console.log(`Hand is over: ${buttonId}`); 
+        handleButtonHover(buttonId); 
       }
     });
   };
@@ -87,9 +108,10 @@ const App: React.FC = () => {
 
     buttonHoverTimeout = setTimeout(() => {
       performAction(buttonId); 
-    }, 3000); 
+    }, 1000); 
   };
 
+  //actions, when hovered over button 
   const performAction = (buttonId: string) => {
     switch (buttonId) {
       case 'plus':
@@ -98,20 +120,20 @@ const App: React.FC = () => {
       case 'minus':
         setZoomLevel(prev => Math.max(prev - 0.1, 0.5)); 
         break;
-      case 'left':
-        setRotation(prev => prev - 90); 
-        break;
-      case 'right':
-        setRotation(prev => prev + 90); 
-        break;
-      case 'prevCar':
-        console.log('Vorheriges Auto');
-        break;
-      case 'nextCar':
-        console.log('Nächstes Auto');
-        break;
-      default:
-        break;
+      //case 'left':
+        //setRotation(prev => prev - 90);
+        //break;
+      //case 'right':
+        //setRotation(prev => prev + 90);
+        //break;
+      //case 'prevCar':
+        //console.log('Vorheriges Auto');
+       //break;
+      //case 'nextCar':
+        //console.log('Nächstes Auto');
+        //break;
+      //default:
+        //break;
     }
   };
 
