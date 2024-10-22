@@ -14,13 +14,14 @@ const App: React.FC = () => {
 
   //ZONES
   const buttonZones = {
-    plus: { left: 150, top: 100, right: 250, bottom: 200 }, 
-    minus: { left: 150, top: 300, right: 250, bottom: 400 },
-    //left: { left: 0, top: 0, right: 0, bottom: 0 },
-    //right: { left: 0, top: 0, right: 0, bottom: 0 },
-    //prevCar: { left: 0, top: 0, right: 0, bottom: 0 },
-    //nextCar: { left: 0, top: 0, right: 0, bottom: 0 }
+    plus: {left: 400, top: 150, right: 500, bottom: 250   },  // Obere linke Seite
+    minus: {left: 100, top: 150, right: 200, bottom: 250 }, // Obere rechte Seite
+    left: { left: 100, top: 250, right: 200, bottom: 350 },  // Mitte links
+    right: { left: 400, top: 250, right: 500, bottom: 350 }, // Mitte rechts
+    prevCar: { left: 100, top: 350, right: 200, bottom: 450 },  // Untere linke Seite
+    nextCar: { left: 400, top: 350, right: 500, bottom: 450 }, // Untere rechte Seite
   };
+  
 
 
   useEffect(() => {
@@ -78,6 +79,27 @@ const App: React.FC = () => {
 
     detectHand();
   }, []);
+
+  // In der detectHand Funktion nach ctx.drawImage() hinzufügen
+const drawZones = (ctx: CanvasRenderingContext2D) => {
+  Object.keys(buttonZones).forEach(buttonId => {
+    const zone = buttonZones[buttonId as keyof typeof buttonZones];
+    
+    // Definiere die Farbe der Zone, z.B. grün
+    ctx.beginPath();
+    ctx.rect(zone.left, zone.top, zone.right - zone.left, zone.bottom - zone.top);
+    ctx.strokeStyle = 'green';  // Grüne Rahmenfarbe
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.closePath();
+    
+    // Füge Text hinzu, um die Zone zu beschriften
+    ctx.font = '16px Arial';
+    ctx.fillStyle = 'white';
+    ctx.fillText(buttonId.toUpperCase(), zone.left + 10, zone.top + 20);
+  });
+};
+
 
   //drawing red circle
   const drawHandPoint = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
@@ -150,16 +172,16 @@ const App: React.FC = () => {
         <div className="overlay">
           <div className="circle">
             <div className="title">MERCEDES BENZ CLE Coupé</div>
-            <img src="src/pictures/cle.png" alt="Car Image" className="car-image" />
+            <img src="src/pictures/m4.png" alt="Car Image" className="car-image" />
             <div className="button-columns">
               <div className="button-column">
                 <button id="plus" className="circle-button">+</button>
-                <button id="minus" className="circle-button">-</button>
                 <button id="left" className="circle-button">&lt;</button>
+                <button id="prevCar" className="circle-button">&lt;&lt;</button>
               </div>
               <div className="button-column">
+                <button id="minus" className="circle-button">-</button>
                 <button id="right" className="circle-button">&gt;</button>
-                <button id="prevCar" className="circle-button">&lt;&lt;</button>
                 <button id="nextCar" className="circle-button">&gt;&gt;</button>
               </div>
             </div>
