@@ -14,12 +14,12 @@ const App: React.FC = () => {
 
   //ZONES
   const buttonZones = {
-    plus: {left: 400, top: 150, right: 500, bottom: 250   },  // Obere linke Seite
-    minus: {left: 100, top: 150, right: 200, bottom: 250 }, // Obere rechte Seite
-    left: { left: 100, top: 250, right: 200, bottom: 350 },  // Mitte links
-    right: { left: 400, top: 250, right: 500, bottom: 350 }, // Mitte rechts
-    prevCar: { left: 100, top: 350, right: 200, bottom: 450 },  // Untere linke Seite
-    nextCar: { left: 400, top: 350, right: 500, bottom: 450 }, // Untere rechte Seite
+    plus: {left: 400, top: 150, right: 500, bottom: 250   }, 
+    minus: {left: 100, top: 150, right: 200, bottom: 250 },
+    //left: { left: 100, top: 250, right: 200, bottom: 350 },  
+    //right: { left: 400, top: 250, right: 500, bottom: 350 }, 
+    //prevCar: { left: 100, top: 350, right: 200, bottom: 450 }, 
+    //nextCar: { left: 400, top: 350, right: 500, bottom: 450 }, 
   };
   
 
@@ -79,27 +79,6 @@ const App: React.FC = () => {
 
     detectHand();
   }, []);
-
-  // In der detectHand Funktion nach ctx.drawImage() hinzufügen
-const drawZones = (ctx: CanvasRenderingContext2D) => {
-  Object.keys(buttonZones).forEach(buttonId => {
-    const zone = buttonZones[buttonId as keyof typeof buttonZones];
-    
-    // Definiere die Farbe der Zone, z.B. grün
-    ctx.beginPath();
-    ctx.rect(zone.left, zone.top, zone.right - zone.left, zone.bottom - zone.top);
-    ctx.strokeStyle = 'green';  // Grüne Rahmenfarbe
-    ctx.lineWidth = 3;
-    ctx.stroke();
-    ctx.closePath();
-    
-    // Füge Text hinzu, um die Zone zu beschriften
-    ctx.font = '16px Arial';
-    ctx.fillStyle = 'white';
-    ctx.fillText(buttonId.toUpperCase(), zone.left + 10, zone.top + 20);
-  });
-};
-
 
   //drawing red circle
   const drawHandPoint = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
