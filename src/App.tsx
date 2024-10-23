@@ -22,8 +22,6 @@ const App: React.FC = () => {
     //nextCar: { left: 400, top: 350, right: 500, bottom: 450 }, 
   };
   
-
-
   useEffect(() => {
     const loadCamera = async () => {
       try {
@@ -44,7 +42,6 @@ const App: React.FC = () => {
       }
     };
     
-
     loadCamera();
 
     const detectHand = async () => {
@@ -56,7 +53,6 @@ const App: React.FC = () => {
 
           if (ctx) {
             ctx.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height); 
-            ctx.drawImage(videoRef.current!, 0, 0, canvasRef.current!.width, canvasRef.current!.height);
             
             const predictions = await net.estimateHands(videoRef.current!);
         
@@ -96,14 +92,11 @@ const App: React.FC = () => {
       if (x > zone.left && x < zone.right && y > zone.top && y < zone.bottom) {
         console.log(`Hand is over: ${buttonId}`);
         handleButtonHover(buttonId);
-
-        // Fügt die Hover-Klasse hinzu, wenn die Hand über dem Button ist
         const button = document.getElementById(buttonId);
         if (button) {
           button.classList.add('hover');
         }
       } else {
-        // Entfernt die Hover-Klasse, wenn die Hand nicht mehr über dem Button ist
         const button = document.getElementById(buttonId);
         if (button) {
           button.classList.remove('hover');
