@@ -163,38 +163,39 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="App">
-      <div className="camera-container" style={{ transform: `scale(${zoomLevel}) rotate(${rotation}deg)` }}>
-        <video ref={videoRef} className="videobox" id="video" width={640} height={480} autoPlay />
-        <canvas
-          ref={canvasRef}
-          id="canvas"
-          className="canvasbox"
-          width={640}
-          height={480}
-        />
-        <div className="overlay">
-          <div className="button-columns">
-            <div className="button-row">
+      <div className="App">
+    <div className="title">{carTitles[currentImage]}</div>
+    <div className="camera-container" style={{ transform: `scale(${zoomLevel}) rotate(${rotation}deg)` }}>
+      <video ref={videoRef} className="videobox" id="video" width={640} height={480} autoPlay />
+      <canvas
+        ref={canvasRef}
+        id="canvas"
+        className="canvasbox"
+        width={640}
+        height={480}
+      />
+      <div className="overlay">
+        <div className="button-columns">
+          <div className="button-row">
             <Button id="plus" onHover={handleButtonHover} />
             <Button id="minus" onHover={handleButtonHover} />
-            </div>
-            <div className="button-row">
-              <Button id="left" onHover={handleButtonHover} />
-              <Button id="right" onHover={handleButtonHover} />
-            </div>
-            <div className="button-row">
-              <Button id="prevCar" onHover={handleButtonHover} />
-              <Button id="nextCar"  onHover={handleButtonHover} />
-            </div>
           </div>
-          <div className="circle">
-            <div className="title">{carTitles[currentImage]}</div> 
-            <img src={carImages[currentImage]} alt="Car Image" className="car-image" />
+          <div className="button-row">
+            <Button id="left" onHover={handleButtonHover} />
+            <Button id="right" onHover={handleButtonHover} />
           </div>
+          <div className="button-row">
+            <Button id="prevCar" onHover={handleButtonHover} />
+            <Button id="nextCar" onHover={handleButtonHover} />
+          </div>
+        </div>
+        <div className="circle">
+          <img src={carImages[currentImage]} alt="Car Image" className="car-image" />
         </div>
       </div>
     </div>
+  </div>
+
   );
 };
 

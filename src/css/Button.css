@@ -3,7 +3,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: rgba(255, 255, 255, 0.1);
     border-radius: 50%; 
     width: 900px; 
     height: 800px; 
@@ -25,7 +24,7 @@
   .button-row {
     display: flex;
     justify-content: center; 
-    gap: 550px; 
+    gap: 950px; 
     margin-bottom: 20px; 
   }
   
