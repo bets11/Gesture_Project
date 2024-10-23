@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as tf from '@tensorflow/tfjs'; 
 import '@tensorflow/tfjs-backend-webgl'; 
 import * as handpose from '@tensorflow-models/handpose'; 
-import './App.css';
+import './css/App.css';
 import m4 from './pictures/m4.png';
 import competition from './pictures/competition.png';
 import cle from './pictures/cle.png';
+import Button from './Button'; 
 
 const App: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -18,7 +19,6 @@ const App: React.FC = () => {
 
   const carImages = [cle, competition, m4];
   const carTitles = ["Mercedes Benz CLE", "M4 Competition", "M4"]; 
-
 
   const buttonZones = {
     plus: {left: 400, top: 150, right: 500, bottom: 250}, 
@@ -91,13 +91,13 @@ const App: React.FC = () => {
   const checkHandOnButton = (x: number, y: number) => {
     Object.keys(buttonZones).forEach(buttonId => {
       const zone = buttonZones[buttonId as keyof typeof buttonZones];
-
+  
       if (x > zone.left && x < zone.right && y > zone.top && y < zone.bottom) {
         console.log(`Hand is over: ${buttonId}`);
         handleButtonHover(buttonId);
         const button = document.getElementById(buttonId);
         if (button) {
-          button.classList.add('hover');
+          button.classList.add('hover'); 
         }
       } else {
         const button = document.getElementById(buttonId);
@@ -126,13 +126,13 @@ const App: React.FC = () => {
       case 'minus':
         setZoomLevel(prev => Math.max(prev - 0.1, 0.5)); 
         break;
-     case 'prevCar':
+      case 'prevCar':
          setCurrentImage((prev) => (prev - 1 + carImages.length) % carImages.length); 
-     break;
-     case 'nextCar':
-       setCurrentImage((prev) => (prev + 1) % carImages.length); 
-       break;
-     default:
+         break;
+      case 'nextCar':
+        setCurrentImage((prev) => (prev + 1) % carImages.length); 
+        break;
+      default:
         break;
     }
   };
@@ -149,25 +149,25 @@ const App: React.FC = () => {
           height={480}
         />
         <div className="overlay">
-        <div className="button-columns">
-          <div className="button-row">
-            <button id="plus" className="circle-button">+</button>
-            <button id="minus" className="circle-button">-</button>
+          <div className="button-columns">
+            <div className="button-row">
+            <Button id="plus" onHover={handleButtonHover} />
+            <Button id="minus" onHover={handleButtonHover} />
+            </div>
+            <div className="button-row">
+              <Button id="left" onHover={handleButtonHover} />
+              <Button id="right" onHover={handleButtonHover} />
+            </div>
+            <div className="button-row">
+              <Button id="prevCar" onHover={handleButtonHover} />
+              <Button id="nextCar"  onHover={handleButtonHover} />
+            </div>
           </div>
-          <div className="button-row">
-            <button id="left" className="circle-button">&lt;</button>
-            <button id="right" className="circle-button">&gt;</button>
-          </div>
-          <div className="button-row">
-            <button id="prevCar" className="circle-button">&lt;&lt;</button>
-            <button id="nextCar" className="circle-button">&gt;&gt;</button>
+          <div className="circle">
+            <div className="title">{carTitles[currentImage]}</div> 
+            <img src={carImages[currentImage]} alt="Car Image" className="car-image" />
           </div>
         </div>
-        <div className="circle">
-          <div className="title">{carTitles[currentImage]}</div> 
-          <img src={carImages[currentImage]} alt="Car Image" className="car-image" />
-        </div>
-      </div>
       </div>
     </div>
   );
