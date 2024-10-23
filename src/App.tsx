@@ -3,25 +3,30 @@ import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-webgl'; 
 import * as handpose from '@tensorflow-models/handpose'; 
 import './App.css';
+import m4 from './pictures/m4.png';
+import competition from './pictures/competition.png';
+import cle from './pictures/cle.png';
 
 const App: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [zoomLevel, setZoomLevel] = useState(1); 
   const [rotation, setRotation] = useState(0); 
+  const [currentImage, setCurrentImage] = useState(0); 
 
   let buttonHoverTimeout: NodeJS.Timeout | null = null;
 
-  //ZONES
+  const carImages = [cle, competition, m4];
+  const carTitles = ["Mercedes Benz CLE", "M4 Competition", "M4"]; 
+
+
   const buttonZones = {
-    plus: {left: 400, top: 150, right: 500, bottom: 250   }, 
-    minus: {left: 100, top: 150, right: 200, bottom: 250 },
-    //left: { left: 100, top: 250, right: 200, bottom: 350 },  
-    //right: { left: 400, top: 250, right: 500, bottom: 350 }, 
-    //prevCar: { left: 100, top: 350, right: 200, bottom: 450 }, 
-    //nextCar: { left: 400, top: 350, right: 500, bottom: 450 }, 
+    plus: {left: 400, top: 150, right: 500, bottom: 250}, 
+    minus: {left: 100, top: 150, right: 200, bottom: 250},
+    prevCar: {left: 400, top: 350, right: 500, bottom: 450}, 
+    nextCar: {left: 100, top: 350, right: 200, bottom: 450}
   };
-  
+
   useEffect(() => {
     const loadCamera = async () => {
       try {
@@ -41,7 +46,7 @@ const App: React.FC = () => {
         alert("Unable to access the camera. Please check camera permissions.");
       }
     };
-    
+
     loadCamera();
 
     const detectHand = async () => {
@@ -52,7 +57,7 @@ const App: React.FC = () => {
           const ctx = canvasRef.current!.getContext('2d'); 
 
           if (ctx) {
-            ctx.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height); 
+            ctx.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
             
             const predictions = await net.estimateHands(videoRef.current!);
         
@@ -62,7 +67,6 @@ const App: React.FC = () => {
               const handCenterY = (hand.topLeft[1] + hand.bottomRight[1]) / 2;
         
               checkHandOnButton(handCenterX, handCenterY);
-        
               drawHandPoint(ctx, handCenterX, handCenterY);
             }
           }
@@ -76,7 +80,6 @@ const App: React.FC = () => {
     detectHand();
   }, []);
 
-  //drawing red circle
   const drawHandPoint = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
     ctx.beginPath();
     ctx.arc(x, y, 10, 0, 2 * Math.PI); 
@@ -115,7 +118,6 @@ const App: React.FC = () => {
     }, 1000);
   };
 
-  //actions, when hovered over button 
   const performAction = (buttonId: string) => {
     switch (buttonId) {
       case 'plus':
@@ -124,20 +126,14 @@ const App: React.FC = () => {
       case 'minus':
         setZoomLevel(prev => Math.max(prev - 0.1, 0.5)); 
         break;
-      //case 'left':
-        //setRotation(prev => prev - 90);
-        //break;
-      //case 'right':
-        //setRotation(prev => prev + 90);
-        //break;
-      //case 'prevCar':
-        //console.log('Vorheriges Auto');
-       //break;
-      //case 'nextCar':
-        //console.log('Nächstes Auto');
-        //break;
-      //default:
-        //break;
+     case 'prevCar':
+         setCurrentImage((prev) => (prev - 1 + carImages.length) % carImages.length); 
+     break;
+     case 'nextCar':
+       setCurrentImage((prev) => (prev + 1) % carImages.length); 
+       break;
+     default:
+        break;
     }
   };
 
@@ -153,23 +149,25 @@ const App: React.FC = () => {
           height={480}
         />
         <div className="overlay">
-          <div className="circle">
-            <div className="title">MERCEDES BENZ CLE Coupé</div>
-            <img src="src/pictures/m4.png" alt="Car Image" className="car-image" />
-            <div className="button-columns">
-              <div className="button-column">
-                <button id="plus" className="circle-button">+</button>
-                <button id="left" className="circle-button">&lt;</button>
-                <button id="prevCar" className="circle-button">&lt;&lt;</button>
-              </div>
-              <div className="button-column">
-                <button id="minus" className="circle-button">-</button>
-                <button id="right" className="circle-button">&gt;</button>
-                <button id="nextCar" className="circle-button">&gt;&gt;</button>
-              </div>
-            </div>
+        <div className="button-columns">
+          <div className="button-row">
+            <button id="plus" className="circle-button">+</button>
+            <button id="minus" className="circle-button">-</button>
+          </div>
+          <div className="button-row">
+            <button id="left" className="circle-button">&lt;</button>
+            <button id="right" className="circle-button">&gt;</button>
+          </div>
+          <div className="button-row">
+            <button id="prevCar" className="circle-button">&lt;&lt;</button>
+            <button id="nextCar" className="circle-button">&gt;&gt;</button>
           </div>
         </div>
+        <div className="circle">
+          <div className="title">{carTitles[currentImage]}</div> 
+          <img src={carImages[currentImage]} alt="Car Image" className="car-image" />
+        </div>
+      </div>
       </div>
     </div>
   );
