@@ -103,32 +103,26 @@ const App: React.FC = () => {
     Object.keys(buttonZones).forEach(buttonId => {
       const zone = buttonZones[buttonId as keyof typeof buttonZones];
   
-      // Überprüfe, ob die Hand sich über dem Button befindet
       if (x > zone.left && x < zone.right && y > zone.top && y < zone.bottom) {
         const button = document.getElementById(buttonId);
         if (button) {
           button.classList.add('hover');
   
-          // Wenn der Timer für diesen Button noch nicht läuft, starte ihn
           if (!buttonHoverTimeouts[buttonId]) {
             console.log(`Hand is over the button ${buttonId}, starting 3 second timer...`);
   
-            // Starte den Timer für 3 Sekunden
             buttonHoverTimeouts[buttonId] = setTimeout(() => {
-              performAction(buttonId); // Führe die Aktion nach 3 Sekunden aus
+              performAction(buttonId); 
               console.log(`Action for button ${buttonId} executed after 3 seconds.`);
-              buttonHoverTimeouts[buttonId] = null; // Timer zurücksetzen
-            }, 3000); // 3 Sekunden
+              buttonHoverTimeouts[buttonId] = null; 
+            }, 3000); 
           }
         }
       } else {
-        // Wenn die Hand den Button verlässt, bevor die 3 Sekunden um sind, Timer zurücksetzen
         const button = document.getElementById(buttonId);
         if (button) {
           button.classList.remove('hover');
         }
-  
-        // Timer löschen und zurücksetzen, wenn die Hand den Button verlässt
         if (buttonHoverTimeouts[buttonId]) {
           clearTimeout(buttonHoverTimeouts[buttonId] as NodeJS.Timeout); 
           buttonHoverTimeouts[buttonId] = null; 
@@ -140,13 +134,13 @@ const App: React.FC = () => {
 
   const handleButtonHover = (buttonId: string) => {
     if (buttonHoverTimeouts[buttonId]) {
-      clearTimeout(buttonHoverTimeouts[buttonId] as NodeJS.Timeout);  // Timer für den entsprechenden Button löschen
+      clearTimeout(buttonHoverTimeouts[buttonId] as NodeJS.Timeout);  
     }
 
     buttonHoverTimeouts[buttonId] = setTimeout(() => {
       performAction(buttonId);
-      buttonHoverTimeouts[buttonId] = null;  // Timer zurücksetzen
-    }, 500);  // 500ms Timer für eine schnelle Reaktion
+      buttonHoverTimeouts[buttonId] = null;  
+    }, 500);  
 };
 
   const performAction = (buttonId: string) => {
