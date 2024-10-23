@@ -92,11 +92,22 @@ const App: React.FC = () => {
   const checkHandOnButton = (x: number, y: number) => {
     Object.keys(buttonZones).forEach(buttonId => {
       const zone = buttonZones[buttonId as keyof typeof buttonZones];
-      
-      //hand in defined buttonZones
+
       if (x > zone.left && x < zone.right && y > zone.top && y < zone.bottom) {
-        console.log(`Hand is over: ${buttonId}`); 
-        handleButtonHover(buttonId); 
+        console.log(`Hand is over: ${buttonId}`);
+        handleButtonHover(buttonId);
+
+        // Fügt die Hover-Klasse hinzu, wenn die Hand über dem Button ist
+        const button = document.getElementById(buttonId);
+        if (button) {
+          button.classList.add('hover');
+        }
+      } else {
+        // Entfernt die Hover-Klasse, wenn die Hand nicht mehr über dem Button ist
+        const button = document.getElementById(buttonId);
+        if (button) {
+          button.classList.remove('hover');
+        }
       }
     });
   };
@@ -107,8 +118,8 @@ const App: React.FC = () => {
     }
 
     buttonHoverTimeout = setTimeout(() => {
-      performAction(buttonId); 
-    }, 1000); 
+      performAction(buttonId);
+    }, 1000);
   };
 
   //actions, when hovered over button 
