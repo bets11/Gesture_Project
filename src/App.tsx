@@ -7,6 +7,8 @@ import m4 from './pictures/m4.png';
 import competition from './pictures/competition.png';
 import cle from './pictures/cle.png';
 import Button from './Button'; 
+tf.setBackend('webgl');
+
 
 const App: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -15,16 +17,25 @@ const App: React.FC = () => {
   const [rotation, setRotation] = useState(0); 
   const [currentImage, setCurrentImage] = useState(0); 
 
-  let buttonHoverTimeout: NodeJS.Timeout | null = null;
+  
+
+  let buttonHoverTimeouts: { [key: string]: NodeJS.Timeout | null } = {
+    plus: null,
+    minus: null,
+    prevCar: null,
+    nextCar: null
+  };
+  let hoverStartTime: number | null = null; 
+
 
   const carImages = [cle, competition, m4];
   const carTitles = ["Mercedes Benz CLE", "M4 Competition", "M4"]; 
 
   const buttonZones = {
-    plus: {left: 400, top: 150, right: 500, bottom: 250}, 
-    minus: {left: 100, top: 150, right: 200, bottom: 250},
-    prevCar: {left: 400, top: 350, right: 500, bottom: 450}, 
-    nextCar: {left: 100, top: 350, right: 200, bottom: 450}
+    plus: {left: 200, top: 90, right: 600, bottom: 100}, 
+    minus: {left: 100, top: 90, right: 200, bottom: 250},
+    prevCar: {left: 400, top: 350, right: 500, bottom: 550}, 
+    nextCar: {left: 100, top: 350, right: 200, bottom: 550}
   };
 
   useEffect(() => {
@@ -92,31 +103,51 @@ const App: React.FC = () => {
     Object.keys(buttonZones).forEach(buttonId => {
       const zone = buttonZones[buttonId as keyof typeof buttonZones];
   
+      // Überprüfe, ob die Hand sich über dem Button befindet
       if (x > zone.left && x < zone.right && y > zone.top && y < zone.bottom) {
-        console.log(`Hand is over: ${buttonId}`);
-        handleButtonHover(buttonId);
         const button = document.getElementById(buttonId);
         if (button) {
-          button.classList.add('hover'); 
+          button.classList.add('hover');
+  
+          // Wenn der Timer für diesen Button noch nicht läuft, starte ihn
+          if (!buttonHoverTimeouts[buttonId]) {
+            console.log(`Hand is over the button ${buttonId}, starting 3 second timer...`);
+  
+            // Starte den Timer für 3 Sekunden
+            buttonHoverTimeouts[buttonId] = setTimeout(() => {
+              performAction(buttonId); // Führe die Aktion nach 3 Sekunden aus
+              console.log(`Action for button ${buttonId} executed after 3 seconds.`);
+              buttonHoverTimeouts[buttonId] = null; // Timer zurücksetzen
+            }, 3000); // 3 Sekunden
+          }
         }
       } else {
+        // Wenn die Hand den Button verlässt, bevor die 3 Sekunden um sind, Timer zurücksetzen
         const button = document.getElementById(buttonId);
         if (button) {
           button.classList.remove('hover');
+        }
+  
+        // Timer löschen und zurücksetzen, wenn die Hand den Button verlässt
+        if (buttonHoverTimeouts[buttonId]) {
+          clearTimeout(buttonHoverTimeouts[buttonId] as NodeJS.Timeout); 
+          buttonHoverTimeouts[buttonId] = null; 
+          console.log(`Hand left the button ${buttonId}, timer cleared.`);
         }
       }
     });
   };
 
   const handleButtonHover = (buttonId: string) => {
-    if (buttonHoverTimeout) {
-      clearTimeout(buttonHoverTimeout);
+    if (buttonHoverTimeouts[buttonId]) {
+      clearTimeout(buttonHoverTimeouts[buttonId] as NodeJS.Timeout);  // Timer für den entsprechenden Button löschen
     }
 
-    buttonHoverTimeout = setTimeout(() => {
+    buttonHoverTimeouts[buttonId] = setTimeout(() => {
       performAction(buttonId);
-    }, 1000);
-  };
+      buttonHoverTimeouts[buttonId] = null;  // Timer zurücksetzen
+    }, 500);  // 500ms Timer für eine schnelle Reaktion
+};
 
   const performAction = (buttonId: string) => {
     switch (buttonId) {
