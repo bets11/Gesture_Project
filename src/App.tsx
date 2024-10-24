@@ -5,7 +5,7 @@ import * as handpose from '@tensorflow-models/handpose';
 import './css/App.css';
 import m4 from './pictures/m4.png';
 import competition from './pictures/competition.png';
-import cle from './pictures/cle.png';
+import gt63 from './pictures/gt63.png';
 import Button from './Button'; 
 tf.setBackend('webgl');
 
@@ -28,8 +28,8 @@ const App: React.FC = () => {
   let hoverStartTime: number | null = null; 
 
 
-  const carImages = [cle, competition, m4];
-  const carTitles = ["Mercedes Benz CLE", "M4 Competition", "M4"]; 
+  const carImages = [gt63, competition, m4];
+  const carTitles = ["Mercedes gt63", "M4 Competition", "M4"]; 
 
   const buttonZones = {
     plus: {left: 200, top: 90, right: 600, bottom: 100}, 
