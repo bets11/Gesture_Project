@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-  ]
+, "src/components/Button.tsx", "src/components/CarSwitcher.tsx"  ]
 }

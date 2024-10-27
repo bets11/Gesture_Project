@@ -6,8 +6,8 @@ import './css/App.css';
 import m4 from './pictures/m4.png';
 import competition from './pictures/competition.png';
 import gt63 from './pictures/gt63.png';
-import Button from './Button'; 
-import CarSwitcher from './CarSwitcher'; 
+import Button from './components/Button'; 
+import CarSwitcher from './components/CarSwitcher'; 
 tf.setBackend('webgl');
 
 
