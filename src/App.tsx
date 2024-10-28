@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Tracking from './components/Tracking';
 import './css/App.css';
 import m4 from './pictures/m4.png';
@@ -11,7 +11,8 @@ const App: React.FC = () => {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [currentImage, setCurrentImage] = useState(0);
-  const [hoveredButton, setHoveredButton] = useState<string | null>(null);  // Hinzufügen des hoveredButton-States
+  const [hoveredButton, setHoveredButton] = useState<string | null>(null);
+  const [hoverStartTime, setHoverStartTime] = useState<number | null>(null);
 
   const buttonZones = {
     plus: { left: 200, top: 90, right: 600, bottom: 100 },
@@ -43,9 +44,26 @@ const App: React.FC = () => {
   };
 
   const handleHandOverButton = (buttonId: string) => {
-    setHoveredButton(buttonId);  // Setze den Button als "hovered"
-    performAction(buttonId);
+    if (hoveredButton !== buttonId) {
+      setHoveredButton(buttonId);
+      setHoverStartTime(Date.now()); 
+    }
   };
+
+  useEffect(() => {
+    if (hoveredButton && hoverStartTime) {
+      const interval = setInterval(() => {
+        const hoverDuration = Date.now() - hoverStartTime;
+        if (hoverDuration >= 2000) {  // tracking the gesture after 2s on the same spot
+          performAction(hoveredButton);
+          setHoveredButton(null); 
+          setHoverStartTime(null); 
+        }
+      }, 100);
+
+      return () => clearInterval(interval);
+    }
+  }, [hoveredButton, hoverStartTime]);
 
   return (
     <div className="App">
