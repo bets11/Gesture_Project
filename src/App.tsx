@@ -11,12 +11,13 @@ const App: React.FC = () => {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [currentImage, setCurrentImage] = useState(0);
+  const [hoveredButton, setHoveredButton] = useState<string | null>(null);  // Hinzufügen des hoveredButton-States
 
   const buttonZones = {
-    plus: {left: 200, top: 90, right: 600, bottom: 100},
-    minus: {left: 100, top: 90, right: 200, bottom: 250},
-    prevCar: {left: 400, top: 350, right: 500, bottom: 550},
-    nextCar: {left: 100, top: 350, right: 200, bottom: 550}
+    plus: { left: 200, top: 90, right: 600, bottom: 100 },
+    minus: { left: 100, top: 90, right: 200, bottom: 250 },
+    prevCar: { left: 400, top: 350, right: 500, bottom: 550 },
+    nextCar: { left: 100, top: 350, right: 200, bottom: 550 }
   };
 
   const carImages = [gt63, competition, m4];
@@ -42,11 +43,8 @@ const App: React.FC = () => {
   };
 
   const handleHandOverButton = (buttonId: string) => {
+    setHoveredButton(buttonId);  // Setze den Button als "hovered"
     performAction(buttonId);
-  };
-
-  const handleButtonHover = (id: string) => {
-    performAction(id);
   };
 
   return (
@@ -56,16 +54,16 @@ const App: React.FC = () => {
         <div className="overlay">
           <div className="button-columns">
             <div className="button-row">
-              <Button id="plus" onHover={handleButtonHover} />
-              <Button id="minus" onHover={handleButtonHover} />
+              <Button id="plus" hovered={hoveredButton === 'plus'} onHover={setHoveredButton} />
+              <Button id="minus" hovered={hoveredButton === 'minus'} onHover={setHoveredButton} />
             </div>
             <div className="button-row">
-              <Button id="left" onHover={handleButtonHover} />
-              <Button id="right" onHover={handleButtonHover} />
+              <Button id="left" hovered={hoveredButton === 'left'} onHover={setHoveredButton} />
+              <Button id="right" hovered={hoveredButton === 'right'} onHover={setHoveredButton} />
             </div>
             <div className="button-row">
-              <Button id="prevCar" onHover={handleButtonHover} />
-              <Button id="nextCar" onHover={handleButtonHover} />
+              <Button id="prevCar" hovered={hoveredButton === 'prevCar'} onHover={setHoveredButton} />
+              <Button id="nextCar" hovered={hoveredButton === 'nextCar'} onHover={setHoveredButton} />
             </div>
           </div>
           <CarSwitcher

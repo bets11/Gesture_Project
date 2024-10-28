@@ -3,22 +3,21 @@ import '../css/Button.css';
 
 
 interface ButtonProps {
-    id: string;
-    onHover: (id: string) => void;
-  }
-  
-  const Button: React.FC<ButtonProps> = ({ id, onHover }) => {
-  
-    const handleHover = () => {
-      onHover(id);
-    };
-  
+  id: string;
+  hovered: boolean;  
+  onHover: (id: string) => void;
+}
+
+const Button: React.FC<ButtonProps> = ({ id, hovered, onHover }) => {
+  const handleHover = () => {
+    onHover(id);
+  };
     return (
       <button
-        id={id}
-        className="circle-button"
-        onMouseOver={handleHover}
-      >
+      id={id}
+      className={`circle-button ${hovered ? 'hovered' : ''}`}  
+      onMouseOver={handleHover}
+    >
         {id === 'plus' && (
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-zoom-in" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11M13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>

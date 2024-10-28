@@ -41,8 +41,8 @@
   
   }
   
-  .circle-button.hover {
-    transform: scale(1.5); 
+  .circle-button.hovered {
+    transform: scale(1.2);
     background-color: rgba(199, 231, 189, 0.9);
   }
 
