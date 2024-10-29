@@ -17,9 +17,8 @@ html, body {
 
 .camera-container {
   position: relative;
-  width: 640px;
-  height: 640px;
-  transition: transform 0.3s ease-in-out;
+  width: 1000px;
+  height: 1000px;
 }
 
 .videobox {
@@ -58,19 +57,18 @@ html, body {
   font-size: 32px; 
   color: white;
   position: fixed; 
-  top: 70px; 
+  top: 110px; 
   left: 50%; 
   transform: translateX(-50%); 
   z-index: 10; 
-  font-family: 'Lobster', cursive;
+  font-family:cursive;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+  
 
 }
 
-
-
 .car-image {
-  width: 80%;
+  width: 100%;
   margin: 20px 0;
   object-fit: cover; 
   border-radius: 50%;

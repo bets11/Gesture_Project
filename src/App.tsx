@@ -6,13 +6,13 @@ import competition from './pictures/competition.png';
 import gt63 from './pictures/gt63.png';
 import Button from './components/Button';
 import CarSwitcher from './components/CarSwitcher';
+import ZoomInOut from './components/ZoomInOut';
+
 
 const App: React.FC = () => {
-  const [zoomLevel, setZoomLevel] = useState(1);
-  const [rotation, setRotation] = useState(0);
-  const [currentImage, setCurrentImage] = useState(0);
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
   const [hoverStartTime, setHoverStartTime] = useState<number | null>(null);
+  const [zoomLevel, setZoomLevel] = useState(1);
 
   const buttonZones = {
     plus: { left: 200, top: 90, right: 600, bottom: 100 },
@@ -22,26 +22,8 @@ const App: React.FC = () => {
   };
 
   const carImages = [gt63, competition, m4];
-  const carTitles = ["Mercedes gt63", "M4 Competition", "M4"];
+  const carTitles = ["MERCEDES BENZ GT63", "BMW M4 COMPETITION", "BMW M4 F82"];
 
-  const performAction = (buttonId: string) => {
-    switch (buttonId) {
-      case 'plus':
-        setZoomLevel(prev => Math.min(prev + 0.1, 2));
-        break;
-      case 'minus':
-        setZoomLevel(prev => Math.max(prev - 0.1, 0.5));
-        break;
-      case 'prevCar':
-        setCurrentImage((prev) => (prev - 1 + carImages.length) % carImages.length);
-        break;
-      case 'nextCar':
-        setCurrentImage((prev) => (prev + 1) % carImages.length);
-        break;
-      default:
-        break;
-    }
-  };
 
   const handleHandOverButton = (buttonId: string) => {
     if (hoveredButton !== buttonId) {
@@ -54,8 +36,7 @@ const App: React.FC = () => {
     if (hoveredButton && hoverStartTime) {
       const interval = setInterval(() => {
         const hoverDuration = Date.now() - hoverStartTime;
-        if (hoverDuration >= 2000) {  // tracking the gesture after 2s on the same spot
-          performAction(hoveredButton);
+        if (hoverDuration >= 2000) {  
           setHoveredButton(null); 
           setHoverStartTime(null); 
         }
@@ -67,31 +48,33 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <div className="camera-container" style={{ transform: `scale(${zoomLevel}) rotate(${rotation}deg)` }}>
-        <Tracking onHandOverButton={handleHandOverButton} buttonZones={buttonZones} />
-        <div className="overlay">
-          <div className="button-columns">
-            <div className="button-row">
-              <Button id="plus" hovered={hoveredButton === 'plus'} onHover={setHoveredButton} />
-              <Button id="minus" hovered={hoveredButton === 'minus'} onHover={setHoveredButton} />
-            </div>
-            <div className="button-row">
-              <Button id="left" hovered={hoveredButton === 'left'} onHover={setHoveredButton} />
-              <Button id="right" hovered={hoveredButton === 'right'} onHover={setHoveredButton} />
-            </div>
-            <div className="button-row">
-              <Button id="prevCar" hovered={hoveredButton === 'prevCar'} onHover={setHoveredButton} />
-              <Button id="nextCar" hovered={hoveredButton === 'nextCar'} onHover={setHoveredButton} />
-            </div>
-          </div>
-          <CarSwitcher
-            currentImage={currentImage}
+        <div className="camera-container">
+            <Tracking onHandOverButton={handleHandOverButton} buttonZones={buttonZones} />
+            <div className="overlay">
+              <div className="button-columns">
+                <div className="button-row">
+                <Button id="plus" hovered={hoveredButton === 'plus'} onHover={setHoveredButton} />
+                <Button id="minus" hovered={hoveredButton === 'minus'} onHover={setHoveredButton} />
+                </div>
+                <div className="button-row">
+                  <Button id="left" hovered={hoveredButton === 'left'} onHover={setHoveredButton} />
+                  <Button id="right" hovered={hoveredButton === 'right'} onHover={setHoveredButton} />
+                </div>
+                <div className="button-row">
+                  <Button id="prevCar" hovered={hoveredButton === 'prevCar'} onHover={setHoveredButton} />
+                  <Button id="nextCar" hovered={hoveredButton === 'nextCar'} onHover={setHoveredButton} />
+                </div>
+              </div>
+              <ZoomInOut buttonId={hoveredButton} onZoomChange={setZoomLevel} />
+              <CarSwitcher
             carImages={carImages}
             carTitles={carTitles}
+            zoomLevel={zoomLevel}
+            buttonId={hoveredButton} 
           />
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 
