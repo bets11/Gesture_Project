@@ -4,6 +4,7 @@ import './css/App.css';
 import Button from './components/Button';
 import CarSwitcher from './components/CarSwitcher';
 import { carData, CarData } from './components/CarDetails';
+import ZoomInOut from './components/ZoomInOut';
 
 const App: React.FC = () => {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
@@ -29,6 +30,10 @@ const App: React.FC = () => {
     }
   };
 
+  const handleZoomChange = (newZoomLevel: number) => {
+    setZoomLevel(newZoomLevel);
+  };
+
   useEffect(() => {
     if (hoveredButton && hoverStartTime) {
       const interval = setInterval(() => {
@@ -44,17 +49,9 @@ const App: React.FC = () => {
   }, [hoveredButton, hoverStartTime]);
 
   return (
-    <div
-      className="App"
+    <div className="App"
       style={{
-        background: background,
-        transition: 'background 0.5s ease',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-    >
+        background: background}}>
       <div className="frame-container">
         <div className="main-content">
           <CarSwitcher
@@ -64,6 +61,7 @@ const App: React.FC = () => {
             updateBackground={updateBackground} 
           />
           <Tracking onHandOverButton={handleHandOverButton} buttonZones={buttonZones} />
+          <ZoomInOut onZoomChange={handleZoomChange} buttonId={hoveredButton} />
           <div className="button-columns">
             <div className="button-row">
               <Button id="plus" hovered={hoveredButton === 'plus'} onHover={setHoveredButton} />

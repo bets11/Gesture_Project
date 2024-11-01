@@ -29,7 +29,7 @@ export const carData: CarData[] = [
     horsepower: 887,
     price: "$1,495,000",
     location: "Las Vegas, NV",
-    backgroundGradient: "linear-gradient(to bottom, #000000, #ffffff)" 
+    backgroundGradient: "linear-gradient(to bottom, #d63319, #c4867c)" 
   },
   {
     title: "BMW M4 COMPETITION",
@@ -39,7 +39,7 @@ export const carData: CarData[] = [
     horsepower: 503,
     price: "$67,500",
     location: "Munich, Germany",
-    backgroundGradient: "linear-gradient(to bottom, #d5d5d2, #f5f5f5)" 
+    backgroundGradient: "linear-gradient(to bottom, #a0e4f2, #c3ced1)" 
   },
   {
     title: "BMW M4 F82",
@@ -49,7 +49,7 @@ export const carData: CarData[] = [
     horsepower: 425,
     price: "$60,000",
     location: "Los Angeles, CA",
-    backgroundGradient: "linear-gradient(to bottom, #ffb6c1, #ffe4e1)" 
+    backgroundGradient: "linear-gradient(to bottom, #f5a31c, #d1b484)" 
   }
 ];
 
