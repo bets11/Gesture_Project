@@ -4,6 +4,7 @@ import './css/App.css';
 import Button from './components/Button';
 import CarSwitcher from './components/CarSwitcher';
 import { carData, CarData } from './components/CarDetails';
+import ZoomInOut from './components/ZoomInOut';
 
 const App: React.FC = () => {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
@@ -19,8 +20,10 @@ const App: React.FC = () => {
     plus: { left: 200, top: 90, right: 600, bottom: 100 },
     minus: { left: 100, top: 90, right: 200, bottom: 250 },
     prevCar: { left: 400, top: 350, right: 500, bottom: 550 },
-    nextCar: { left: 100, top: 350, right: 200, bottom: 550 }
-  };
+    nextCar: { left: 100, top: 350, right: 200, bottom: 550 },
+    left: { left: 400, top: 150, right: 500, bottom: 250 },
+    right: { left: 600, top: 150, right: 700, bottom: 250 }
+};
 
   const handleHandOverButton = (buttonId: string) => {
     if (hoveredButton !== buttonId) {
@@ -43,17 +46,21 @@ const App: React.FC = () => {
     }
   }, [hoveredButton, hoverStartTime]);
 
+  const handleZoomChange = (newZoomLevel: number) => {
+    setZoomLevel(newZoomLevel);
+  };
+
   return (
     <div
-      className="App"
-      style={{
-        background: background,
-        transition: 'background 0.5s ease',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
+        className="App"
+        style={{
+          background: background,
+          transition: 'background 0.5s ease',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
     >
       <div className="frame-container">
         <div className="main-content">
@@ -64,6 +71,7 @@ const App: React.FC = () => {
             updateBackground={updateBackground} 
           />
           <Tracking onHandOverButton={handleHandOverButton} buttonZones={buttonZones} />
+          <ZoomInOut onZoomChange={handleZoomChange} buttonId={hoveredButton} />
           <div className="button-columns">
             <div className="button-row">
               <Button id="plus" hovered={hoveredButton === 'plus'} onHover={setHoveredButton} />

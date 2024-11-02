@@ -1,8 +1,6 @@
-// CarDetails.tsx
-import gt63 from '../pictures/gt63.png';
-import competition from '../pictures/competition.png';
-import m4 from '../pictures/m4.png';
-
+import gt2 from '../pictures/gt2.png';
+import comp2 from '../pictures/comp2.png';
+import m2 from '../pictures/m2.png';
 
 interface CarDetailsProps {
   currentCar: CarData;
@@ -23,7 +21,7 @@ export interface CarData {
 export const carData: CarData[] = [
   {
     title: "MERCEDES BENZ GT63",
-    image: gt63,
+    image: gt2,
     year: 2015,
     mileage: 1744,
     horsepower: 887,
@@ -33,7 +31,7 @@ export const carData: CarData[] = [
   },
   {
     title: "BMW M4 COMPETITION",
-    image: competition,
+    image: comp2,
     year: 2017,
     mileage: 1050,
     horsepower: 503,
@@ -43,7 +41,7 @@ export const carData: CarData[] = [
   },
   {
     title: "BMW M4 F82",
-    image: m4,
+    image: m2,
     year: 2018,
     mileage: 1200,
     horsepower: 425,

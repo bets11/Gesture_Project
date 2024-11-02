@@ -40,6 +40,7 @@ const CarSwitcher: React.FC<CarSwitcherProps> = ({ carData, zoomLevel, buttonId,
   }, [hoverStartTime, buttonId, carData.length, updateBackground, carData]);
 
   return (
+    <div>
     <div className="car-image-container">
       <img
         src={currentCar.image}
@@ -49,6 +50,7 @@ const CarSwitcher: React.FC<CarSwitcherProps> = ({ carData, zoomLevel, buttonId,
       />
       <h2 className="title">{currentCar.title}</h2>
       <CarDetails currentCar={currentCar} zoomLevel={zoomLevel} />
+    </div>
     </div>
   );
 };
