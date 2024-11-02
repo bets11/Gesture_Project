@@ -3,7 +3,7 @@ import Tracking from './components/Tracking';
 import './css/App.css';
 import Button from './components/Button';
 import CarSwitcher from './components/CarSwitcher';
-import { carData } from './components/CarDetails';
+import carData from './carData.json';
 import ZoomInOut from './components/ZoomInOut';
 
 

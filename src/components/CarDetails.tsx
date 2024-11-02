@@ -1,8 +1,8 @@
+import React from 'react';
 import gt2 from '../pictures/gt2.png';
 import comp2 from '../pictures/comp2.png';
 import m2 from '../pictures/m2.png';
-
-
+import carDataJson from '../carData.json';
 
 interface CarDetailsProps {
   currentCar: CarData;
@@ -20,61 +20,36 @@ export interface CarData {
   backgroundGradient: string; 
 }
 
-export const carData: CarData[] = [
-  {
-    title: "MERCEDES BENZ GT63",
-    image: gt2,
-    year: 2015,
-    mileage: 1744,
-    horsepower: 887,
-    price: "$1,495,000",
-    location: "Las Vegas, NV",
-    backgroundGradient: "linear-gradient(to bottom, #d63319, #c4867c)" 
-  },
-  {
-    title: "BMW M4 COMPETITION",
-    image: comp2,
-    year: 2017,
-    mileage: 1050,
-    horsepower: 503,
-    price: "$67,500",
-    location: "Munich, Germany",
-    backgroundGradient: "linear-gradient(to bottom, #a0e4f2, #c3ced1)" 
-  },
-  {
-    title: "BMW M4 F82",
-    image: m2,
-    year: 2018,
-    mileage: 1200,
-    horsepower: 425,
-    price: "$60,000",
-    location: "Los Angeles, CA",
-    backgroundGradient: "linear-gradient(to bottom, #f5a31c, #d1b484)" 
-  }
-];
+const imageMap = {
+  gt2,
+  comp2,
+  m2
+};
 
+export const carData = carDataJson.map(car => ({
+  ...car,
+  image: imageMap[car.image as keyof typeof imageMap]
+}));
 
 const CarDetails: React.FC<CarDetailsProps> = ({ currentCar }) => {
   return (
-    <div
-      className="car-details-container">
-    <div style={{ display: 'inline-flex', gap: '40px', width: '800px' }}>
-      <div style={{ textAlign: 'left', marginRight: '30px', marginLeft: '200px' }}>
-        <span style={{ fontSize: '20px', color: '#333', marginBottom: '5px' }}>Year: </span>
-        <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#333' }}>{currentCar.year}</span>
+    <div className="car-details-container">
+      <div style={{ display: 'inline-flex', gap: '40px', width: '800px' }}>
+        <div style={{ textAlign: 'left', marginRight: '30px', marginLeft: '200px' }}>
+          <span style={{ fontSize: '20px', color: '#333', marginBottom: '5px' }}>Year: </span>
+          <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#333' }}>{currentCar.year}</span>
+        </div>
+        <div style={{ textAlign: 'left', marginRight: '30px', marginLeft: '40px' }}>
+          <span style={{ fontSize: '20px', color: '#333', marginBottom: '15px' }}>Horsepower: </span>
+          <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#333' }}>{currentCar.horsepower}</span>
+        </div>
+        <div style={{ textAlign: 'left', marginRight: '30px', marginLeft: '40px'}}>
+          <span style={{ fontSize: '20px', color: '#333', marginBottom: '15px' }}>Mileage: </span>
+          <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#333' }}>{currentCar.mileage.toLocaleString()}</span>
+        </div>
       </div>
-      <div style={{ textAlign: 'left', marginRight: '30px', marginLeft: '40px' }}>
-        <span style={{ fontSize: '20px', color: '#333', marginBottom: '15px' }}>Horsepower: </span>
-        <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#333' }}>{currentCar.horsepower}</span>
-      </div>
-      <div style={{ textAlign: 'left', marginRight: '30px', marginLeft: '40px'}}>
-        <span style={{ fontSize: '20px', color: '#333', marginBottom: '15px' }}>Mileage: </span>
-        <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#333' }}>{currentCar.mileage.toLocaleString()}</span>
-      </div>
-    </div>
     </div>
   );
 };
-
 
 export default CarDetails;
