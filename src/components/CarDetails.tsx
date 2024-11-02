@@ -2,6 +2,8 @@ import gt2 from '../pictures/gt2.png';
 import comp2 from '../pictures/comp2.png';
 import m2 from '../pictures/m2.png';
 
+
+
 interface CarDetailsProps {
   currentCar: CarData;
   zoomLevel: number;
