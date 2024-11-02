@@ -3,14 +3,15 @@ import Tracking from './components/Tracking';
 import './css/App.css';
 import Button from './components/Button';
 import CarSwitcher from './components/CarSwitcher';
-import { carData, CarData } from './components/CarDetails';
+import { carData } from './components/CarDetails';
 import ZoomInOut from './components/ZoomInOut';
+
 
 const App: React.FC = () => {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
-  const [hoverStartTime, setHoverStartTime] = useState<number | null>(null);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [background, setBackground] = useState(carData[0].backgroundGradient);
+  const [actionTimeout, setActionTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const updateBackground = (newBackground: string) => {
     setBackground(newBackground);
@@ -18,35 +19,35 @@ const App: React.FC = () => {
 
   const buttonZones = {
     plus: { left: 200, top: 90, right: 600, bottom: 100 },
-    minus: { left: 100, top: 90, right: 200, bottom: 250 },
+    minus: { left: 100, top: 90, right: 200, bottom: 100 },
     prevCar: { left: 400, top: 350, right: 500, bottom: 550 },
-    nextCar: { left: 100, top: 350, right: 200, bottom: 550 }
+    nextCar: { left: 100, top: 350, right: 200, bottom: 550 },
+    right: { left: 100, top: 200, right: 200, bottom: 300 },
+    left: { left: 400, top: 200, right: 500, bottom: 300 },
   };
 
   const handleHandOverButton = (buttonId: string) => {
     if (hoveredButton !== buttonId) {
       setHoveredButton(buttonId);
-      setHoverStartTime(Date.now());
+
+      if (actionTimeout) clearTimeout(actionTimeout);
+      const timeout = setTimeout(() => {
+        setHoveredButton(buttonId); 
+      }, 2000); 
+
+      setActionTimeout(timeout);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (actionTimeout) clearTimeout(actionTimeout);
+    };
+  }, [hoveredButton, actionTimeout]);
 
   const handleZoomChange = (newZoomLevel: number) => {
     setZoomLevel(newZoomLevel);
   };
-
-  useEffect(() => {
-    if (hoveredButton && hoverStartTime) {
-      const interval = setInterval(() => {
-        const hoverDuration = Date.now() - hoverStartTime;
-        if (hoverDuration >= 2000) {
-          setHoveredButton(null);
-          setHoverStartTime(null);
-        }
-      }, 100);
-
-      return () => clearInterval(interval);
-    }
-  }, [hoveredButton, hoverStartTime]);
 
   return (
     <div className="App"
@@ -58,8 +59,9 @@ const App: React.FC = () => {
             carData={carData}
             zoomLevel={zoomLevel}
             buttonId={hoveredButton}
-            updateBackground={updateBackground} 
+            updateBackground={updateBackground}
           />
+          <ZoomInOut onZoomChange={handleZoomChange} buttonId={hoveredButton} />
           <Tracking onHandOverButton={handleHandOverButton} buttonZones={buttonZones} />
           <ZoomInOut onZoomChange={handleZoomChange} buttonId={hoveredButton} />
           <div className="button-columns">

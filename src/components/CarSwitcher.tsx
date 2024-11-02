@@ -1,51 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import { CarData } from './CarDetails';
 import CarDetails from './CarDetails';
+import Car360View from './Car360View';
+import gt1 from '../pictures/gt1.png';
+import gt2 from '../pictures/gt2.png';
+import gt3 from '../pictures/gt3.png';
+import gt4 from '../pictures/gt4.png';
+import comp1 from '../pictures/comp1.png';
+import comp2 from '../pictures/comp2.png';
+import comp3 from '../pictures/comp3.png';
+import comp4 from '../pictures/comp4.png';
+import m1 from '../pictures/m1.png';
+import m2 from '../pictures/m2.png';
+import m3 from '../pictures/m3.png';
+import m4 from '../pictures/m4.png';
 
 interface CarSwitcherProps {
   carData: CarData[];
   zoomLevel: number;
   buttonId: string | null;
-  updateBackground: (newBackground: string) => void; // Neue Prop hinzufügen
+  updateBackground: (newBackground: string) => void;
 }
 
 const CarSwitcher: React.FC<CarSwitcherProps> = ({ carData, zoomLevel, buttonId, updateBackground }) => {
   const [currentCarIndex, setCurrentCarIndex] = useState(0);
-  const [hoverStartTime, setHoverStartTime] = useState<number | null>(null);
   const currentCar = carData[currentCarIndex];
 
+  const carViews = [
+    [gt1, gt2, gt3, gt4], 
+    [comp1, comp2, comp3, comp4], 
+    [m1, m2, m3, m4], 
+  ];
+
   useEffect(() => {
-    if (buttonId === 'prevCar' || buttonId === 'nextCar') {
-      setHoverStartTime(Date.now());
-    } else {
-      setHoverStartTime(null);
+    updateBackground(currentCar.backgroundGradient);
+  }, [currentCarIndex, updateBackground, currentCar.backgroundGradient]);
+
+  useEffect(() => {
+    if (buttonId === 'prevCar') {
+      setCurrentCarIndex((prevIndex) => (prevIndex - 1 + carData.length) % carData.length);
+    } else if (buttonId === 'nextCar') {
+      setCurrentCarIndex((prevIndex) => (prevIndex + 1) % carData.length);
     }
-  }, [buttonId]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (hoverStartTime && (Date.now() - hoverStartTime >= 2000)) {
-        setCurrentCarIndex((prev) => {
-          const newIndex = buttonId === 'prevCar'
-            ? (prev - 1 + carData.length) % carData.length
-            : (prev + 1) % carData.length;
-          updateBackground(carData[newIndex].backgroundGradient);
-          return newIndex;
-        });
-        setHoverStartTime(null);
-      }
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, [hoverStartTime, buttonId, carData.length, updateBackground, carData]);
+  }, [buttonId, carData.length]);
 
   return (
     <div className="car-image-container">
-      <img
-        src={currentCar.image}
-        alt={currentCar.title}
-        className="car-image"
-        style={{ transform: `scale(${zoomLevel})` }}
+      <Car360View
+        carImages={carViews[currentCarIndex]}
+        zoomLevel={zoomLevel}
+        buttonId={buttonId}
       />
       <h2 className="title">{currentCar.title}</h2>
       <CarDetails currentCar={currentCar} zoomLevel={zoomLevel} />
