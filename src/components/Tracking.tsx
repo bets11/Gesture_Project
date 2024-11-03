@@ -4,7 +4,7 @@ import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-webgl';
 
 interface TrackingProps {
-  onHandOverButton: (buttonId: string) => void;
+  onHandOverButton: (buttonId: string | null) => void;
   buttonZones: {
     [key: string]: { left: number; top: number; right: number; bottom: number };
   };
@@ -14,6 +14,8 @@ const Tracking: React.FC<TrackingProps> = ({ onHandOverButton, buttonZones }) =>
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [model, setModel] = useState<handpose.HandPose | null>(null);
+  const [hoverTimer, setHoverTimer] = useState<NodeJS.Timeout | null>(null);
+  const [currentHoveredButton, setCurrentHoveredButton] = useState<string | null>(null);
 
   useEffect(() => {
     const loadModel = async () => {
@@ -55,6 +57,8 @@ const Tracking: React.FC<TrackingProps> = ({ onHandOverButton, buttonZones }) =>
               
               checkHandOnButton(handCenterX, handCenterY);
               drawHandPoint(ctx, handCenterX, handCenterY);
+            } else {
+              resetHoverState();
             }
           }
         }
@@ -71,12 +75,37 @@ const Tracking: React.FC<TrackingProps> = ({ onHandOverButton, buttonZones }) =>
   }, [model, buttonZones, onHandOverButton]);
 
   const checkHandOnButton = (x: number, y: number) => {
-    Object.keys(buttonZones).forEach(buttonId => {
+    let isHandOverButton = false;
+    Object.keys(buttonZones).forEach((buttonId) => {
       const zone = buttonZones[buttonId];
       if (x > zone.left && x < zone.right && y > zone.top && y < zone.bottom) {
-        onHandOverButton(buttonId);
+        isHandOverButton = true;
+        if (currentHoveredButton !== buttonId) {
+          resetHoverState();
+          setCurrentHoveredButton(buttonId);
+          const timer = setTimeout(() => {
+            onHandOverButton(buttonId);
+          }, 2000); // 2 Sekunden warten, bevor die Aktion ausgelöst wird
+          setHoverTimer(timer);
+        }
       }
     });
+
+    // Wenn die Hand nicht über einem Button ist, zurücksetzen
+    if (!isHandOverButton) {
+      resetHoverState();
+    }
+  };
+
+  const resetHoverState = () => {
+    if (hoverTimer) {
+      clearTimeout(hoverTimer);
+      setHoverTimer(null);
+    }
+    if (currentHoveredButton) {
+      onHandOverButton(null); // Setzt den Button wieder in den Normalzustand
+      setCurrentHoveredButton(null);
+    }
   };
 
   const drawHandPoint = (ctx: CanvasRenderingContext2D, x: number, y: number) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Tracking from './Tracking';
+import '../css/Car360View.css';
 
 interface Car360ViewProps {
   carImages: string[]; 
@@ -8,24 +8,35 @@ interface Car360ViewProps {
 }
 
 const Car360View: React.FC<Car360ViewProps> = ({ carImages, zoomLevel, buttonId }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentRotation, setCurrentRotation] = useState(0);
 
   useEffect(() => {
     if (buttonId === 'left') {
-      setCurrentImageIndex((prevIndex) => (prevIndex - 1 + carImages.length) % carImages.length);
+      setCurrentRotation((prevRotation) => prevRotation - 90); // Rotate left
     } else if (buttonId === 'right') {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % carImages.length);
+      setCurrentRotation((prevRotation) => prevRotation + 90); // Rotate right
     }
-  }, [buttonId, carImages.length]);
+  }, [buttonId]);
 
   return (
     <div className="car-360-view">
-      <img
-        src={carImages[currentImageIndex]}
-        alt="Car 360 view"
-        className="car-image"
-        style={{ transform: `scale(${zoomLevel})` }}
-      />
+      <div
+        className="prism-container"
+        style={{ transform: `rotateY(${currentRotation}deg) scale(${zoomLevel})` }}
+      >
+        <div className="prism-side prism-front">
+          <img src={carImages[0]} alt="Front view" className="car-image" />
+        </div>
+        <div className="prism-side prism-right">
+          <img src={carImages[1]} alt="Right view" className="car-image" />
+        </div>
+        <div className="prism-side prism-back">
+          <img src={carImages[2]} alt="Back view" className="car-image" />
+        </div>
+        <div className="prism-side prism-left">
+          <img src={carImages[3]} alt="Left view" className="car-image" />
+        </div>
+      </div>
     </div>
   );
 };

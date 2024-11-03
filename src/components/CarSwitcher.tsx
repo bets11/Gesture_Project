@@ -14,6 +14,7 @@ import m1 from '../pictures/m1.png';
 import m2 from '../pictures/m2.png';
 import m3 from '../pictures/m3.png';
 import m4 from '../pictures/m4.png';
+import '../css/CarSwitcher.css';
 
 interface CarSwitcherProps {
   carData: CarData[];
@@ -24,12 +25,13 @@ interface CarSwitcherProps {
 
 const CarSwitcher: React.FC<CarSwitcherProps> = ({ carData, zoomLevel, buttonId, updateBackground }) => {
   const [currentCarIndex, setCurrentCarIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const currentCar = carData[currentCarIndex];
 
   const carViews = [
-    [gt1, gt2, gt3, gt4], 
-    [comp1, comp2, comp3, comp4], 
-    [m1, m2, m3, m4], 
+    [gt1, gt2, gt3, gt4],
+    [comp1, comp2, comp3, comp4],
+    [m1, m2, m3, m4],
   ];
 
   useEffect(() => {
@@ -37,20 +39,28 @@ const CarSwitcher: React.FC<CarSwitcherProps> = ({ carData, zoomLevel, buttonId,
   }, [currentCarIndex, updateBackground, currentCar.backgroundGradient]);
 
   useEffect(() => {
-    if (buttonId === 'prevCar') {
-      setCurrentCarIndex((prevIndex) => (prevIndex - 1 + carData.length) % carData.length);
-    } else if (buttonId === 'nextCar') {
-      setCurrentCarIndex((prevIndex) => (prevIndex + 1) % carData.length);
+    if (buttonId === 'prevCar' || buttonId === 'nextCar') {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentCarIndex((prevIndex) =>
+          buttonId === 'prevCar'
+            ? (prevIndex - 1 + carData.length) % carData.length
+            : (prevIndex + 1) % carData.length
+        );
+        setIsTransitioning(false);
+      }, 500); // Übergangsdauer
     }
   }, [buttonId, carData.length]);
 
   return (
     <div className="car-image-container">
-      <Car360View
-        carImages={carViews[currentCarIndex]}
-        zoomLevel={zoomLevel}
-        buttonId={buttonId}
-      />
+      <div className={`car-image ${isTransitioning ? 'fade-out' : 'fade-in'}`}>
+        <Car360View
+          carImages={carViews[currentCarIndex]}
+          zoomLevel={zoomLevel}
+          buttonId={buttonId}
+        />
+      </div>
       <h2 className="title">{currentCar.title}</h2>
       <CarDetails currentCar={currentCar} zoomLevel={zoomLevel} />
     </div>

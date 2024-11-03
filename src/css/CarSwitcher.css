@@ -1,0 +1,22 @@
+.car-image-container {
+    display: fixed;
+    flex-direction: column;
+    margin-right: 15%;
+    margin-bottom:30%;
+    
+  }
+  
+  .car-image {
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  }
+  
+  .fade-in .car-image {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  .fade-out .car-image {
+    opacity: 0;
+    transform: scale(0.95); /* Optionaler Verkleinerungseffekt */
+  }
+  

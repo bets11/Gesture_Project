@@ -35,7 +35,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({ currentCar }) => {
   return (
     <div className="car-details-container">
       <div style={{ display: 'inline-flex', gap: '40px', width: '800px' }}>
-        <div style={{ textAlign: 'left', marginRight: '30px', marginLeft: '200px' }}>
+        <div style={{ textAlign: 'left', marginRight: '30px', marginLeft: '230px' }}>
           <span style={{ fontSize: '20px', color: '#333', marginBottom: '5px' }}>Year: </span>
           <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#333' }}>{currentCar.year}</span>
         </div>

@@ -7,7 +7,7 @@
       "horsepower": 887,
       "price": "$1,495,000",
       "location": "Las Vegas, NV",
-      "backgroundGradient": "linear-gradient(to bottom, #d63319, #c4867c)"
+      "backgroundGradient": "linear-gradient(to bottom, #000000, #4f4f4f)"
     },
     {
       "title": "BMW M4 COMPETITION",
@@ -17,7 +17,7 @@
       "horsepower": 503,
       "price": "$67,500",
       "location": "Munich, Germany",
-      "backgroundGradient": "linear-gradient(to bottom, #a0e4f2, #c3ced1)"
+      "backgroundGradient": "linear-gradient(to bottom, #004d00, #2a7a2a)"
     },
     {
       "title": "BMW M4 F82",
@@ -27,7 +27,7 @@
       "horsepower": 425,
       "price": "$60,000",
       "location": "Los Angeles, CA",
-      "backgroundGradient": "linear-gradient(to bottom, #f5a31c, #d1b484)"
+      "backgroundGradient": "linear-gradient(to bottom, #ffffff, #b0b0b0)"
     }
   ]
   

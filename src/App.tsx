@@ -18,18 +18,19 @@ const App: React.FC = () => {
     setBackground(newBackground);
   };
 
-  const handleHandOverButton = (buttonId: string) => {
+  const handleHandOverButton = (buttonId: string | null) => {
     if (hoveredButton !== buttonId) {
       setHoveredButton(buttonId);
-
+  
       if (actionTimeout) clearTimeout(actionTimeout);
       const timeout = setTimeout(() => {
         setHoveredButton(buttonId); 
       }, 2000); 
-
+  
       setActionTimeout(timeout);
     }
   };
+  
 
   useEffect(() => {
     return () => {
