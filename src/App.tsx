@@ -4,6 +4,7 @@ import './css/App.css';
 import Button from './components/Button';
 import CarSwitcher from './components/CarSwitcher';
 import carData from './carData.json';
+import buttonZones from './buttonZones.json';
 import ZoomInOut from './components/ZoomInOut';
 
 
@@ -15,15 +16,6 @@ const App: React.FC = () => {
 
   const updateBackground = (newBackground: string) => {
     setBackground(newBackground);
-  };
-
-  const buttonZones = {
-    plus: { left: 200, top: 90, right: 600, bottom: 100 },
-    minus: { left: 100, top: 90, right: 200, bottom: 100 },
-    prevCar: { left: 400, top: 350, right: 500, bottom: 550 },
-    nextCar: { left: 100, top: 350, right: 200, bottom: 550 },
-    right: { left: 100, top: 200, right: 200, bottom: 300 },
-    left: { left: 400, top: 200, right: 500, bottom: 300 },
   };
 
   const handleHandOverButton = (buttonId: string) => {
