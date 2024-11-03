@@ -17,6 +17,6 @@
   
   .fade-out .car-image {
     opacity: 0;
-    transform: scale(0.95); /* Optionaler Verkleinerungseffekt */
+    transform: scale(0.95); 
   }
   

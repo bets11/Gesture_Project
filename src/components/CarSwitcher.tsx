@@ -48,7 +48,7 @@ const CarSwitcher: React.FC<CarSwitcherProps> = ({ carData, zoomLevel, buttonId,
             : (prevIndex + 1) % carData.length
         );
         setIsTransitioning(false);
-      }, 500); // Übergangsdauer
+      }, 500); 
     }
   }, [buttonId, carData.length]);
 

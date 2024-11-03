@@ -12,9 +12,9 @@ const Car360View: React.FC<Car360ViewProps> = ({ carImages, zoomLevel, buttonId 
 
   useEffect(() => {
     if (buttonId === 'left') {
-      setCurrentRotation((prevRotation) => prevRotation - 90); // Rotate left
+      setCurrentRotation((prevRotation) => prevRotation - 90); 
     } else if (buttonId === 'right') {
-      setCurrentRotation((prevRotation) => prevRotation + 90); // Rotate right
+      setCurrentRotation((prevRotation) => prevRotation + 90); 
     }
   }, [buttonId]);
 
