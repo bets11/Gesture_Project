@@ -17,7 +17,7 @@
       "horsepower": 503,
       "price": "$67,500",
       "location": "Munich, Germany",
-      "backgroundGradient": "linear-gradient(to bottom, #004d00, #2a7a2a)"
+      "backgroundGradient": "linear-gradient(to bottom, #a0e4f2, #c3ced1)"
     },
     {
       "title": "BMW M4 F82",
@@ -27,7 +27,7 @@
       "horsepower": 425,
       "price": "$60,000",
       "location": "Los Angeles, CA",
-      "backgroundGradient": "linear-gradient(to bottom, #ffffff, #b0b0b0)"
+      "backgroundGradient": "linear-gradient(to bottom, #12372A, #ADBC9F)"
     }
   ]
   
