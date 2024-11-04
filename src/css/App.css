@@ -55,8 +55,8 @@ html, body {
   font-size: 32px; 
   color: rgb(33, 3, 3);
   position: fixed; 
-  top: 630px; 
-  left: 1500px;
+  top: 170px; 
+  left: 860px;
   transform: translateX(-50%); 
   z-index: 10; 
   font-family:cursive;
