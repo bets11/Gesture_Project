@@ -1,11 +1,8 @@
 {
-  "plus": { "left": 50, "top": 0, "right": 150, "bottom": 100 },
-  "minus": { "left": 150, "top": 0, "right": 150, "bottom": 100 },
-  "right": { "left": 50, "top": 100, "right": 150, "bottom": 200 },
-  "left": { "left": 250, "top": 100, "right": 350, "bottom": 200 },
-  "nextCar": { "left": 50, "top": 200, "right": 150, "bottom": 300 },
-  "prevCar": { "left": 250, "top": 200, "right": 350, "bottom": 300 }
+  "plus": { "left": 540, "top": 50, "right": 640, "bottom": 150 }, 
+  "minus": { "left": 0, "top": 50, "right": 100, "bottom": 150 },
+  "left": { "left": 540, "top": 200, "right": 640, "bottom": 300 },
+  "right": { "left": 0, "top": 200, "right": 100, "bottom": 300 },
+  "prevCar": { "left": 540, "top": 330, "right": 640, "bottom": 430 },
+  "nextCar": { "left": 0, "top": 330, "right": 100, "bottom": 430 }
 }
-
-
-  
