@@ -21,13 +21,6 @@ const App: React.FC = () => {
   const handleHandOverButton = (buttonId: string | null) => {
     if (hoveredButton !== buttonId) {
       setHoveredButton(buttonId);
-  
-      if (actionTimeout) clearTimeout(actionTimeout);
-      const timeout = setTimeout(() => {
-        setHoveredButton(buttonId); 
-      }, 2000); 
-  
-      setActionTimeout(timeout);
     }
   };
   

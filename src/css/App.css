@@ -55,8 +55,8 @@ html, body {
   font-size: 32px; 
   color: rgb(33, 3, 3);
   position: fixed; 
-  top: 170px; 
-  left: 860px;
+  top: 210px; 
+  left: 50%; 
   transform: translateX(-50%); 
   z-index: 10; 
   font-family:cursive;
@@ -66,14 +66,15 @@ html, body {
 .car-image {
   width: 80%;
   margin: 20px 0;
-  margin-left: 65px;
+  margin-left: 10% ;
   margin-top: 250px;
   object-fit: cover; 
   border-radius: 50%;
 }
+
 .frame-container {
   position: relative;
-  width: 900px;
+  width: 80%;
   max-width: 900px;
   height: 600px;
   background-color: #ffffff;
@@ -93,14 +94,14 @@ html, body {
 }
 
 .header {
-  height: 90px;
+  height: 15%;
   padding: 0 20px;
   font-weight: bold;
   font-size: 18px;
 }
 
 .main-content {
-  height: 420px;
+  height: 70%;
   display: flex;
   flex-direction: column;
   justify-content: center;

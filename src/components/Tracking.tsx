@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as handpose from '@tensorflow-models/handpose';
-import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-webgl';
 
 interface TrackingProps {
@@ -14,7 +13,6 @@ const Tracking: React.FC<TrackingProps> = ({ onHandOverButton, buttonZones }) =>
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [model, setModel] = useState<handpose.HandPose | null>(null);
-  const [hoverTimer, setHoverTimer] = useState<NodeJS.Timeout | null>(null);
   const [currentHoveredButton, setCurrentHoveredButton] = useState<string | null>(null);
 
   useEffect(() => {
@@ -22,7 +20,6 @@ const Tracking: React.FC<TrackingProps> = ({ onHandOverButton, buttonZones }) =>
       const net = await handpose.load();
       setModel(net);
     };
-    
     loadModel();
   }, []);
   
@@ -41,7 +38,7 @@ const Tracking: React.FC<TrackingProps> = ({ onHandOverButton, buttonZones }) =>
     };
 
     const detectHand = async () => {
-      if (!model) return;  // Ensure the model is loaded
+      if (!model) return;
       
       const detect = async () => {
         if (videoRef.current!.readyState === videoRef.current!.HAVE_ENOUGH_DATA) {
@@ -81,29 +78,20 @@ const Tracking: React.FC<TrackingProps> = ({ onHandOverButton, buttonZones }) =>
       if (x > zone.left && x < zone.right && y > zone.top && y < zone.bottom) {
         isHandOverButton = true;
         if (currentHoveredButton !== buttonId) {
-          resetHoverState();
           setCurrentHoveredButton(buttonId);
-          const timer = setTimeout(() => {
-            onHandOverButton(buttonId);
-          }, 2000); // 2 Sekunden warten, bevor die Aktion ausgelöst wird
-          setHoverTimer(timer);
+          onHandOverButton(buttonId);
         }
       }
     });
 
-    // Wenn die Hand nicht über einem Button ist, zurücksetzen
     if (!isHandOverButton) {
       resetHoverState();
     }
   };
 
   const resetHoverState = () => {
-    if (hoverTimer) {
-      clearTimeout(hoverTimer);
-      setHoverTimer(null);
-    }
     if (currentHoveredButton) {
-      onHandOverButton(null); // Setzt den Button wieder in den Normalzustand
+      onHandOverButton(null);
       setCurrentHoveredButton(null);
     }
   };
